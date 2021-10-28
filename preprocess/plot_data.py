@@ -6,8 +6,10 @@ from matplotlib import pyplot as plt
 combined_bin_dir = Path('D:/FMCW/processed_data/adc_data.bin')
 
 with open(combined_bin_dir, 'rb') as file:
-    data = np.fromfile(combined_bin_dir)
+    data = np.fromfile(combined_bin_dir, dtype='int16')
     data = data.reshape([-1, 64, 256, 8])
+
+    data = data[:, :, :, :4] + 1j * data[:, :, :, 4:]
     print(data.shape)
 
     radar_data = data[0, :, :, 0]
